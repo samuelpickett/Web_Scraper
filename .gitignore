@@ -1,4 +1,7 @@
 /web_scraper.exe
 /parser_tests.exe
+/output_tests.exe
 /*.json
 /*.tmp
+/Scrapped_Pages/*.json
+/.vscode

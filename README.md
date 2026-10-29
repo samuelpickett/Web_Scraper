@@ -16,13 +16,17 @@ Make sure `C:\msys64\ucrt64\bin` is on `PATH`. From this folder:
 .\build.ps1 -Test
 ```
 
+For VS Code, open the `Web_Scraper` folder as the workspace. `.vscode/c_cpp_properties.json` points IntelliSense at the same MSYS2 UCRT64 compiler and headers used by the build. If MSYS2 is installed elsewhere, update its paths in that file.
+
 ## Run
 
 ```powershell
-.\web_scraper.exe "Ada Lovelace" "ada_lovelace.json" "you@example.com"
+.\web_scraper.exe
 ```
 
-Replace the last argument with your own contact email or website. [Wikimedia asks automated clients](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy/en) to identify themselves with a descriptive User-Agent and contact information. The program requests only one article at a time through its [HTML endpoint](https://www.mediawiki.org/wiki/API:REST_API/Reference/en#Get_HTML). It retries transient network and server errors twice, but reports missing pages and rate limits immediately.
+The window asks for a Wikipedia page title, a file name, and your contact email or website. Labels show examples for each field. Enter a file name such as `ada_lovelace`; the program adds `.json` automatically and saves it in `Scrapped_Pages` beside the executable. You can also enter a name ending in `.json`. The window stays open for another scrape and the program ends when you close it.
+
+[Wikimedia asks automated clients](https://foundation.wikimedia.org/wiki/Policy:Wikimedia_Foundation_User-Agent_Policy/en) to identify themselves with a descriptive User-Agent and contact information. The program requests only one article at a time through its [HTML endpoint](https://www.mediawiki.org/wiki/API:REST_API/Reference/en#Get_HTML). It retries transient network and server errors twice, but reports missing pages and rate limits immediately in the window.
 
 The output has this shape:
 
@@ -43,4 +47,4 @@ The output has this shape:
 }
 ```
 
-The program writes the JSON to a temporary file before replacing the output file. If fetching, parsing, or writing fails, it prints an error and does not save a partial JSON result. A page can contain headings with empty `paragraphs` when that section contains only lists or references.
+The program writes the JSON to a temporary file before replacing the output file. If fetching, parsing, or writing fails, it shows an error and does not save a partial JSON result. A page can contain headings with empty `paragraphs` when that section contains only lists or references.

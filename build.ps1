@@ -16,7 +16,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 $commonFlags = @('-std=c++17', '-O2', '-Wall', '-Wextra', '-Wpedantic')
-& g++ @commonFlags src/main.cpp src/article_parser.cpp src/http_client.cpp -o web_scraper.exe @dependencyFlags
+& g++ @commonFlags -municode -mwindows src/main.cpp src/article_parser.cpp src/http_client.cpp src/article_output.cpp -o web_scraper.exe @dependencyFlags
 if ($LASTEXITCODE -ne 0) {
     throw 'Building the scraper failed.'
 }
@@ -32,4 +32,14 @@ if ($Test) {
         throw 'Parser tests failed.'
     }
     Write-Host 'Parser tests passed.'
+
+    & g++ @commonFlags tests/output_tests.cpp src/article_output.cpp src/http_client.cpp -o output_tests.exe @dependencyFlags
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Building the output tests failed.'
+    }
+    & .\output_tests.exe
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Output tests failed.'
+    }
+    Write-Host 'Output tests passed.'
 }

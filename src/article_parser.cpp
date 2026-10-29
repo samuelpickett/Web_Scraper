@@ -94,8 +94,8 @@ bool skip_element(const GumboNode* node) {
         return true;
     }
     for (const char* class_name : {"infobox", "sidebar", "navbox", "hatnote", "thumb",
-                                   "toc", "reflist", "metadata", "shortdescription",
-                                   "mw-references-wrap", "mw-editsection", "mw-empty-elt"}) {
+                                "toc", "reflist", "metadata", "shortdescription",
+                                "mw-references-wrap", "mw-editsection", "mw-empty-elt"}) {
         if (has_class(node, class_name)) {
             return true;
         }
@@ -133,7 +133,7 @@ std::string normalize_space(const std::string& input) {
         if (std::isspace(byte) ||
             (i + 1 < input.size() && byte == 0xC2 && static_cast<unsigned char>(input[i + 1]) == 0xA0) ||
             (i + 2 < input.size() && byte == 0xE2 && static_cast<unsigned char>(input[i + 1]) == 0x80 &&
-             static_cast<unsigned char>(input[i + 2]) == 0xAF)) {
+            static_cast<unsigned char>(input[i + 2]) == 0xAF)) {
             pending_space = !result.empty();
             if (byte == 0xC2) {
                 ++i;
@@ -171,7 +171,7 @@ struct HeadingLocation {
 };
 
 void collect_article(const GumboNode* node, Article& article,
-                     std::vector<HeadingLocation>& headings) {
+                    std::vector<HeadingLocation>& headings) {
     if (skip_element(node)) {
         return;
     }
@@ -226,7 +226,7 @@ Article parse_article(const std::string& html) {
         throw std::runtime_error("The response was empty.");
     }
     ParsedHtml parsed(gumbo_parse_with_options(&kGumboDefaultOptions, html.data(), html.size()),
-                      destroy_html);
+                    destroy_html);
     if (parsed == nullptr || parsed->root == nullptr) {
         throw std::runtime_error("The HTML could not be parsed.");
     }
